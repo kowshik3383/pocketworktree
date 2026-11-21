@@ -25,7 +25,7 @@ The worker runs one job at a time. It edits a detached worktree, runs configured
 
 ## Open it from your phone
 
-Keep both Node processes bound to loopback. Use an HTTPS reverse proxy restricted to your private network to forward requests to `127.0.0.1:3000`. Set `POCKETWORKTREE_ORIGIN` in the API terminal to the exact HTTPS dashboard URL, without a path, and restart the API. Visit that URL on your phone. The machine must stay awake while jobs run.
+Build with `npm run build`, then use `npm run start --workspace @pocketworktree/api` and `npm run start --workspace @pocketworktree/web` instead of the development servers. Keep both Node processes bound to loopback. Use an HTTPS reverse proxy restricted to your private network to forward requests to `127.0.0.1:3000`. Set `POCKETWORKTREE_ORIGIN` in the API terminal to the exact HTTPS dashboard URL, without a path, and restart the API. Visit that URL on your phone. The machine must stay awake while jobs run.
 
 For example, if you already use Tailscale, configure [Tailscale Serve](https://tailscale.com/kb/1312/serve) to proxy the local Next.js port within your tailnet. Use the HTTPS URL it reports as `POCKETWORKTREE_ORIGIN`.
 
