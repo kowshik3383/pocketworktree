@@ -191,13 +191,15 @@ export default function Dashboard() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (pending || !repoId || !prompt.trim()) return;
-    if (submission.current?.repoId !== repoId || submission.current.prompt !== prompt) {
-      submission.current = { repoId, prompt, requestId: crypto.randomUUID() };
-    }
+    const previous = submission.current;
+    const payload = previous && previous.repoId === repoId && previous.prompt === prompt
+      ? previous
+      : { repoId, prompt, requestId: crypto.randomUUID() };
+    submission.current = payload;
     setPending(true);
     setError("");
     try {
-      const job: Job = await (await post("/jobs", submission.current)).json();
+      const job: Job = await (await post("/jobs", payload)).json();
       generation.current++;
       setSelected(job);
       setPrompt("");

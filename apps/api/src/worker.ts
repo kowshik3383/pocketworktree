@@ -116,7 +116,7 @@ export class Worker {
           }
         };
         const result = await runCommand("opencode", [
-          "run", "--model", this.config.model, "--format", "json", "--", job.prompt,
+          "run", "--model", this.config.model, "--format", "json", "Task:\n" + job.prompt,
         ], { cwd: worktree, env: localEnv, signal, timeout: 25 * 60_000, onOutput: agentOutput });
         agentOutput("\n");
         if (!result.stopped && (result.code !== 0 || agentError)) throw new Error("OpenCode exited with an error. See the job log.");
