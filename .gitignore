@@ -1,0 +1,8 @@
+node_modules/
+.next/
+dist/
+.pocketworktree/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example

@@ -1,0 +1,16 @@
+{
+  "name": "pocketworktree",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "web": "npm run dev --workspace @pocketworktree/web",
+    "api": "npm run dev --workspace @pocketworktree/api",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces"
+  }
+}
