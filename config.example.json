@@ -1,0 +1,12 @@
+{
+  "model": "ollama/your-installed-tool-capable-model",
+  "repos": [
+    {
+      "id": "sample",
+      "name": "Sample repository",
+      "path": "/absolute/path/to/a/local/git/repository",
+      "baseRef": "refs/heads/main",
+      "checks": []
+    }
+  ]
+}

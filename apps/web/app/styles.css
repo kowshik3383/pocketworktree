@@ -46,3 +46,43 @@ ul { padding: 0; list-style: none; display: grid; gap: 0.65rem; }
 li p { overflow-wrap: anywhere; white-space: pre-wrap; }
 .status { color: #a7ead5; text-transform: capitalize; font-size: 0.875rem; }
 .error { color: #ffb3ba; margin-top: 1rem; }
+
+input, select {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #3c4d61;
+  border-radius: 0.5rem;
+  background: #192230;
+  color: inherit;
+  font: inherit;
+}
+
+.secondary { background: #253346; color: inherit; }
+.prompt { overflow-wrap: anywhere; white-space: pre-wrap; }
+.history li { padding: 0; overflow: hidden; }
+.history button {
+  text-align: left;
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  margin: 0;
+  padding: 1rem;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+}
+.history button:focus-visible { outline-offset: -2px; }
+.history button[aria-pressed="true"] { background: #253346; }
+.actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.actions button { margin-top: 0; }
+a { color: #a7ead5; }
+pre {
+  max-height: 32rem;
+  overflow: auto;
+  padding: 1rem;
+  border: 1px solid #3c4d61;
+  border-radius: 0.5rem;
+  background: #192230;
+}
+.paths li { overflow-wrap: anywhere; }

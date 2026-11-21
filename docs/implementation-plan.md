@@ -1,24 +1,22 @@
-# PocketWorktree implementation plan
+# PocketWorktree MVP implementation
 
-## First milestone
+## Request flow
 
-Use a Next.js dashboard, a NestJS API, and SQLite to accept a prompt, persist it, and list recent jobs. Run both services on loopback while the dashboard is unauthenticated.
+1. Next.js rewrites same-origin API requests to the loopback NestJS server. The owner signs in with an HTTP-only cookie.
+2. NestJS validates the task, matches it to a configured repo, and stores it in SQLite. The request ID deduplicates retries.
+3. An in-process background worker claims one queued job at a time, resolves the local base branch, and builds a detached worktree.
+4. OpenCode runs as a fresh CLI process in that checkout. The worker polls for queued work, records bounded process output, enforces command deadlines, and stops the process group on cancellation.
+5. The worker runs configured commands and captures a binary-capable Git patch against the starting commit using a temporary index. The website polls for job state and incremental logs.
+6. A crash leaves running jobs interrupted. The owner verifies the old processes stopped before explicitly restarting the queue.
 
-## Next milestone
+## Scope after MVP
 
-- Register repos in host-side configuration with an ID, local path, base ref, and check commands. Return repo IDs and names to the dashboard.
-- Add a worker entry point to the NestJS app. Claim jobs atomically, record the resolved Git commit, and create a fresh worktree for every attempt.
-- Pin and verify the deployed OpenCode version. Create a session for the job checkout, persist its session ID, submit the prompt, and reconcile session state when an event connection drops. Configure a local Ollama model.
-- Run the worker with restricted filesystem permissions and without push credentials. Keep the default checkout untouched. Bound command runtime, logs, and patch size.
-- Run configured checks and save their outcomes separately from agent execution. Capture the Git patch against the base commit with a temporary index so added files appear in the review.
-- Display progress, check results, changed files, and the patch in the dashboard. When cancelling, confirm the agent has stopped before capturing a partial patch.
-- Add owner authentication and private, encrypted phone access. Keep the agent API on loopback.
-
-## Acceptance
-
-Submit a task against a disposable repository that edits one file and adds another. Verify the original checkout stays clean, both changes appear in the patch, and the dashboard shows the check result. Reload during a job and confirm the queued or running state loads from SQLite. Test cancellation and worker restart before using the dashboard with a real project.
+- Add an API adapter if you need session follow-ups or already run a managed OpenCode server.
+- Add automatic worktree retention after deciding how to preserve unreviewed edits.
+- Add explicit review approval, then optional GitHub push and PR creation scoped to the reviewed commit.
+- Add end-to-end browser coverage and a real Ollama compatibility test for a pinned CLI and model.
 
 ## Reference
 
-- [OpenCode API](https://opencode.ai/docs/api)
-- [OpenCode web server](https://opencode.ai/docs/cli/web/)
+- [OpenCode CLI](https://opencode.ai/docs/cli/commands)
+- [OpenCode local models](https://opencode.ai/docs/models/)
